@@ -31,7 +31,6 @@ class Game extends PIXI.Container
         this.addChild(this.scene);
         this.scene.Start(); 
         this.app.ticker.add(this.Update.bind(this));
-
     }
     Update()
     {
@@ -39,7 +38,6 @@ class Game extends PIXI.Container
         this.time += this.deltaTime
         TWEEN.update(this.time)
     }
-
     Resize()
     {
         let width = window.innerWidth

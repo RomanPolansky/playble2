@@ -16,7 +16,7 @@ class SceneMain extends PIXI.Container
 
                 this.firstBoard.numFill(board_num_1)
                 this.secondBoard.numFill(board_num_2)
-        
+
                 game.app.view.height > game.app.view.width ? this.VerticalState() : this.HorizontalState()
                 window.addEventListener('resize', () => {
                     game.app.view.height > game.app.view.width ? this.VerticalState() : this.HorizontalState()
@@ -34,6 +34,10 @@ class SceneMain extends PIXI.Container
 
     VerticalState()
     {
+        this.ballRack.setScale(1)
+        this.firstBoard.setScale(1)
+        this.secondBoard.setScale(1)
+
         let scale = game.app.view.height / (5/2 * this.ballRack.height/1.35 + this.firstBoard.height + this.secondBoard.height) * 1.1
 
         this.ballRack.setScale(scale / 1.33)
@@ -60,11 +64,11 @@ class SceneMain extends PIXI.Container
 
     HorizontalState()
     {
-        let scale = game.app.view.width / (this.firstBoard.width/7 + this.firstBoard.width + this.firstBoard.width)
+        this.ballRack.setScale(1)
+        this.firstBoard.setScale(1)
+        this.secondBoard.setScale(1)
 
-        if (this.firstBoard.height*scale + this.ballRack.height*scale >= game.app.view.height) {
-            scale = game.app.view.height/(this.firstBoard.height*scale + this.ballRack.height*scale + this.ballRack.height*scale)
-        }
+        let scale = game.app.view.width / (this.firstBoard.width/7 + this.firstBoard.width + this.firstBoard.width)
 
         this.ballRack.setScale(scale / 1.2)
         this.firstBoard.setScale(scale / 1.1)
