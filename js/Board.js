@@ -55,21 +55,39 @@ class Board extends PIXI.Container
     }
     NumClick(num)
     {
+        let isContain = false
+        for (let i in clickedBall)
+        {
+            if (clickedBall[i] == num.text)
+            {
+                isContain = true
+                break
+            }
+        }
         if (!num.isClicked)
         {
-            num.isClicked = true
-            if (num.Circle)
+            if (isContain) 
             {
-                num.Circle.destroy()
+                num.isClicked = true
+                if (num.Circle)
+                {
+                    num.Circle.destroy()
+                }
+                let daub = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['daub.png'] )
+                daub.anchor.set(0.5)
+                daub.scale.set(0)
+                daub.x = num.x
+                daub.y = num.y - 3
+                this.addChild(daub)
+                new TWEEN.Tween(daub).to({ scale : {x:0.5, y:0.5} }, 150).easing(TWEEN.Easing.Back.Out).start(game.time)
+                this.CircleAdd()
             }
-            let daub = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['daub.png'] )
-            daub.anchor.set(0.5)
-            daub.scale.set(0)
-            daub.x = num.x
-            daub.y = num.y - 3
-            this.addChild(daub)
-            new TWEEN.Tween(daub).to({ scale : {x:0.5, y:0.5} }, 150).easing(TWEEN.Easing.Back.Out).start(game.time)
-            this.CircleAdd()
+            else
+            {
+                new TWEEN.Tween(num).to({ scale : { x : 1.15, y : 1.15 } }, 150).start(game.time).onComplete(() => {
+                    new TWEEN.Tween(num).to({ scale : { x : 1, y : 1 } }, 150).start(game.time).onComplete
+                })
+            }
         }
     }
     DefaultDaubAdd(arr, num)
@@ -126,12 +144,10 @@ class Board extends PIXI.Container
                     vertical++
                     if (vertical == 4)
                     {
-                        console.log(tArr)
                         for (let k = 0; k < tArr.length; k++)
                         {
                             if (!tArr[k].isClicked && !tArr[k].preBingo)
                             {
-                                console.log(tArr[k])
                                 tArr[k].preBingo = true
                             }
                         }

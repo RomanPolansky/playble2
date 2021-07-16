@@ -25,7 +25,41 @@ class BallRack extends PIXI.Container
         this.addChild(this.moveCountText)
 
         this.DefaultFill()
-        this.MoveScale()
+
+        this.Start()
+    }
+    Start()
+    {
+        this.firstTimer = 1000
+        this.firstTick = () => {
+            this.firstTimer -= game.app.ticker.deltaMS
+            if (this.firstTimer <= 0)
+            {
+                this.NewBall()
+                game.app.ticker.remove(this.firstTick)
+                game.app.ticker.add(this.startTick)
+                console
+            }
+        }
+        game.app.ticker.add(this.firstTick)
+
+        this.defaultTimer = 5000
+        this.timer = this.defaultTimer
+        this.startTick = () =>
+        {
+            this.timer -= game.app.ticker.deltaMS
+            if (this.timer <= 0)
+            {
+                if (this.moveCount > 1) this.NewBall()
+                else if (this.moveCount == 1)
+                {
+                    this.NewBall()
+                    this.MoveScale()
+                    game.app.ticker.remove(this.startTick)
+                }
+                this.timer = this.defaultTimer
+            }
+        } 
     }
     setPosition(x, y)
     {
@@ -52,7 +86,8 @@ class BallRack extends PIXI.Container
     {
         let ballCont = new Ball()
     
-        activeBall.push(ballCont)    
+        activeBall.push(ballCont)
+        clickedBall.push(ballCont.children[1].text) 
         this.addChild(ballCont)
 
         

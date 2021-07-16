@@ -14,8 +14,10 @@ const board_num_2 = [
     [8, 21, 40, 51, 66]
 ]
 
-let newNumArr = [10, 22, 46, 63, 9, 17, 21, 39, 66, 51]
+let newNumArr = [10, 22, 46, 63, 17, 9, 21, 66, 39, 51]
 
 let activeBall = []
+
+let clickedBall = ['27', '27']
 
 let defaultDaub = [10, 22, 46, 63, 9, 17, 48, 75, 34, 38, 43, 40, 13, 20, 45, 78, 8]
