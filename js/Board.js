@@ -10,6 +10,8 @@ class Board extends PIXI.Container
             [],
             []
         ]
+        this.bingoCount = 0
+        this.bingoAnimCompleted = 0
         
         this.sprite = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['bingoboard.png'] )
         this.sprite.anchor.set(0.5)
@@ -139,6 +141,18 @@ class Board extends PIXI.Container
                             }
                         }
                     }
+                    if (horisontal == 5)
+                    {
+                        let tArr = this.numTexturesArr[i]
+                        
+                        for (let k = 0; k < tArr.length; k++)
+                        {
+                            if (tArr[k].isClicked && !tArr[k].bingo)
+                            {
+                                tArr[k].bingo = true
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -162,6 +176,17 @@ class Board extends PIXI.Container
                             }
                         }
                     }
+                    if (vertical == 5)
+                    {
+                        
+                        for (let k = 0; k < tArr.length; k++)
+                        {
+                            if (tArr[k].isClicked && !tArr[k].bingo)
+                            {
+                                tArr[k].bingo = true
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -178,6 +203,17 @@ class Board extends PIXI.Container
                         if (!this.numTexturesArr[i][i].isClicked && !this.numTexturesArr[i][i].preBingo)
                         {
                             this.numTexturesArr[i][i].preBingo = true
+                        }
+                    }
+                }
+                if (diag1 == 5)
+                {
+                    
+                    for (let i = 0; i < this.numTexturesArr.length; i++)
+                    {
+                        if (this.numTexturesArr[i][i].isClicked && !this.numTexturesArr[i][i].bingo)
+                        {
+                            this.numTexturesArr[i][i].bingo = true
                         }
                     }
                 }
@@ -200,9 +236,21 @@ class Board extends PIXI.Container
                         }
                     }
                 }
+                if (diag2 == 5)
+                {
+                    
+                    for (let i = 0; i < this.numTexturesArr.length; i++)
+                    {
+                        if (this.numTexturesArr[i][this.numTexturesArr.length - 1 - i].isClicked && !this.numTexturesArr[i][this.numTexturesArr.length - 1 - i].bingo)
+                        {
+                            this.numTexturesArr[i][this.numTexturesArr.length - 1 - i].bingo = true
+                        }
+                    }
+                }
             }
         }
         this.CircleHandler()
+        this.BingoHandler()
     }
     
     CircleHandler()
@@ -231,6 +279,70 @@ class Board extends PIXI.Container
                     num.Circle = circleCont
                 }
             }
+        }
+    }
+    BingoHandler()
+    {
+        let count = 0
+        for (let i = 0; i < this.numTexturesArr.length; i++)
+        {
+            for (let j = 0; j < this.numTexturesArr[i].length; j++)
+            {
+                let num = this.numTexturesArr[i][j]
+                
+                if (num.bingo && !num.bingoObj)
+                {
+                    let bingo = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['bingo.png'] )
+                    bingo.anchor.set(0.5)
+                    bingo.scale.set(0)
+                    bingo.x = num.x
+                    bingo.y = num.y
+                    this.addChild(bingo)
+                    num.bingoObj = bingo
+                    new TWEEN.Tween(bingo).to({ scale : {x:0.35, y:0.35} }, 200).easing(TWEEN.Easing.Back.Out).start(game.time)
+                    count++
+                }
+            }
+        }
+     
+        if (count >= 4 && count < 9)
+        {
+            this.bingoCount += 1
+        }
+        if (count >= 9 && count < 13)
+        {
+            this.bingoCount += 2
+        }
+        if (count >= 13 && count < 17)
+        {
+            this.bingoCount += 3
+        }
+       
+        this.BingoAnim()
+    }
+
+    BingoAnim()
+    {
+        if (this.bingoCount > this.bingoAnimCompleted)
+        {
+            console.log('бинго', this.bingoCount)
+            let bingo = new Bingo()
+            this.addChild(bingo)
+            this.bingoAnimCompleted++
+
+            console.log('выполнено', this.bingoAnimCompleted)
+
+            let time = 0
+            let func = () =>
+            {
+                time += game.app.ticker.deltaMS
+                if (time >= 2300)
+                {
+                    game.app.ticker.remove(func)
+                    this.BingoAnim()
+                }
+            }
+            game.app.ticker.add(func)
         }
     }
 }

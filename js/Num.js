@@ -8,8 +8,12 @@ class Num extends PIXI.Text
         this.interactive = true
         this.buttonMode = true
         this.anchor.set(0.5)
+        
         this.isClicked = false
         this.preBingo = false
         this.Circle = null
+
+        this.bingo = false
+        this.bingoObj = null
     }
 }
