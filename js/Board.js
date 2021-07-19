@@ -74,12 +74,22 @@ class Board extends PIXI.Container
                     num.Circle.destroy()
                 }
                 let daub = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['daub.png'] )
+                let spark = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] )
                 daub.anchor.set(0.5)
                 daub.scale.set(0)
                 daub.x = num.x
                 daub.y = num.y - 3
+                
+                spark.scale.set(0)
+                spark.x = num.x
+                spark.y = num.y - 3
+                this.addChild(spark)
                 this.addChild(daub)
-                new TWEEN.Tween(daub).to({ scale : {x:0.5, y:0.5} }, 150).easing(TWEEN.Easing.Back.Out).start(game.time)
+
+                new TWEEN.Tween(daub).to({ scale : {x:0.5, y:0.5} }, 240).easing(TWEEN.Easing.Back.Out).start(game.time)
+                new TWEEN.Tween(spark).to({ scale : {x:0.5, y:0.5} }, 220).easing(TWEEN.Easing.Back.Out).start(game.time).onComplete(() => {
+                    new TWEEN.Tween(spark).to({ scale : {x:0, y:0}, alpha : 0 }, 200).start(game.time)
+                })
                 this.CircleAdd()
             }
             else

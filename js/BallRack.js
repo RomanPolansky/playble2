@@ -10,6 +10,9 @@ class BallRack extends PIXI.Container
         this.spriteCircle.anchor.set(0.5)
         this.spriteCircle.scale.set(0.82)
 
+        this.spriteRack.x -= this.spriteCircle.width/3
+        this.spriteCircle.x -= this.spriteCircle.width/3
+
         this.spriteCircle.x += this.spriteRack.width/2
         this.spriteCircle.y -= 3
 
@@ -91,7 +94,7 @@ class BallRack extends PIXI.Container
         this.addChild(ballCont)
 
         
-        activeBall[activeBall.length - 1].x = ballCont.x - this.spriteRack.width/2 + ballCont.ball.width - 12
+        activeBall[activeBall.length - 1].x = ballCont.x - this.spriteRack.width/2 + ballCont.ball.width - 50
         activeBall[activeBall.length - 1].scale.set(0)
 
        
@@ -128,7 +131,7 @@ class BallRack extends PIXI.Container
             activeBall.push(ballCont)    
             this.addChild(ballCont)
             
-            activeBall[activeBall.length - 1].x = ballCont.x - this.spriteRack.width/2 + ballCont.ball.width - 12
+            activeBall[activeBall.length - 1].x = ballCont.x - this.spriteRack.width/2 + ballCont.ball.width - 50
 
             for (let j = 0; j < activeBall.length - 1; j++)
             {

@@ -8,7 +8,7 @@ class Game extends PIXI.Container
             width: 100,
             height: 150,
             antialias: true,
-            transparent: false
+            transparent: true
         })
         document.body.appendChild(this.app.view)
 
@@ -26,11 +26,11 @@ class Game extends PIXI.Container
             this.Resize()
         })
         this.Resize()
-        this.scene = new SceneMain();
+        this.scene = new SceneMain()
         this.app.stage.addChild(this)
-        this.addChild(this.scene);
-        this.scene.Start(); 
-        this.app.ticker.add(this.Update.bind(this));
+        this.addChild(this.scene)
+        this.scene.Start()
+        this.app.ticker.add(this.Update.bind(this))
     }
     Update()
     {
@@ -43,5 +43,9 @@ class Game extends PIXI.Container
         let width = window.innerWidth
         let height = window.innerHeight
         this.app.renderer.resize(width, height)
+        if (this.scene !== undefined)
+        {
+            this.scene.resize(width, height)
+        }
     }
 }
