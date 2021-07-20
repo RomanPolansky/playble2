@@ -1,35 +1,29 @@
 class Bingo extends PIXI.Container
 {
-    constructor()
+    constructor(count)
     {
         super()
-        this.Rect()
-        this.y += 15
+        this.Rect(count)
+        this.y += 16
     }
-    Rect()
+    Rect(count)
     {
-        this.rect = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['rect.png'] )
+        let src
+        if (count == 0) src = 'bingoBG1.png'
+        if (count == 1) src = 'bingoBG2.png'
+        if (count == 2) src = 'bingoBG3.png'
+        this.rect = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures[src] )
         this.rect.interactive = true
         this.rect.anchor.set(0.5)
-        this.rect.alpha = 0.8
+        this.rect.alpha = 0.75
         this.rect.scale.set(0)
         this.addChild(this.rect)
-        new TWEEN.Tween(this.rect).to({ scale : {x:1, y:1} }, 200).delay(200).easing(TWEEN.Easing.Back.Out).start(game.time).onComplete(() => {
+        new TWEEN.Tween(this.rect).to({ scale : {x:0.99, y:0.99} }, 200).delay(200).easing(TWEEN.Easing.Back.Out).start(game.time).onComplete(() => {
             this.Letters()
         })
     }
     Letters()
-    {
-        let spark_1 = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] ),
-            spark_2 = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] ),
-            spark_3 = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] )
-
-        spark_2.x -= 100
-        spark_3.x += 100
-        this.addChild(spark_1)
-        this.addChild(spark_2)
-        this.addChild(spark_3)
-        
+    {   
         let B = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['B.png'] )
         let I = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['I.png'] )
         let N = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['N.png'] )

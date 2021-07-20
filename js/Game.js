@@ -12,7 +12,6 @@ class Game extends PIXI.Container
         })
         document.body.appendChild(this.app.view)
 
-
         this.time = 0.0;
         this.deltaTime = 0.0;
     }

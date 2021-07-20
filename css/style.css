@@ -1,4 +1,12 @@
+@font-face {
+    font-family: "BQ";
+    src: url("../assets/CLOUDYWITHACHANCEOFLOVE.ttf");
+}
 * { margin: 0; padding: 0; }
+.ttf {
+    font-family: "BQ";
+    font-size: 0px;
+}
 body {
     display: flex;
     align-items: center;

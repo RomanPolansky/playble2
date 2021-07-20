@@ -8,7 +8,6 @@ class BallRack extends PIXI.Container
         this.spriteCircle = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['circleBar.png'] )
         this.spriteRack.anchor.set(0.5)
         this.spriteCircle.anchor.set(0.5)
-        this.spriteCircle.scale.set(0.82)
 
         this.spriteRack.x -= this.spriteCircle.width/3
         this.spriteCircle.x -= this.spriteCircle.width/3

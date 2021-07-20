@@ -33,7 +33,13 @@ class SceneMain extends PIXI.Container
 
     resize(width, height)
     {
-        width/height < 1.1 ? this.VerticalState(width, height) : this.HorizontalState(width, height)
+        if (this.ballRack !== undefined &&
+            this.firstBoard !== undefined &&
+            this.secondBoard !== undefined &&
+            this.button !== undefined)
+        {
+            width/height < 1.1 ? this.VerticalState(width, height) : this.HorizontalState(width, height)
+        }
     }
 
     VerticalState(width, height)
@@ -43,12 +49,12 @@ class SceneMain extends PIXI.Container
         this.secondBoard.setScale(1)
         this.button.setScale(1)
 
-        let scale = height / (this.ballRack.height/1.33 + this.firstBoard.height + this.secondBoard.height + this.button.height/1.6)
+        let scale = height / (this.ballRack.height/1.4 + this.firstBoard.height + this.secondBoard.height + this.button.height/2)
 
-        this.ballRack.setScale(scale / 1.33)
+        this.ballRack.setScale(scale / 1.4)
         this.firstBoard.setScale(scale)
         this.secondBoard.setScale(scale)
-        this.button.setScale(scale / 1.6)
+        this.button.setScale(scale / 3)
 
         this.step = this.ballRack.height / 2
 
@@ -64,7 +70,7 @@ class SceneMain extends PIXI.Container
         this.ballRack.setPosition(this.x_1, this.y_1)
         this.firstBoard.setPosition(this.x_2, this.y_2)
         this.secondBoard.setPosition(this.x_3, this.y_3)
-        this.button.setPosition(this.x_3, this.y_3 + this.secondBoard.height/2 + this.button.height/2)
+        this.button.setPosition(this.x_3, this.y_3 + this.secondBoard.height/2 + this.button.height/1.5)
     }
 
     HorizontalState(width, height)
@@ -74,12 +80,12 @@ class SceneMain extends PIXI.Container
         this.secondBoard.setScale(1)
         this.button.setScale(1)
 
-        let scale = height / (this.ballRack.height/1.2 + this.firstBoard.height + this.button.height/1.8)
+        let scale = height / (this.ballRack.height/1.2 + this.firstBoard.height + this.button.height/2)
 
         this.ballRack.setScale(scale / 1.2)
         this.firstBoard.setScale(scale)
         this.secondBoard.setScale(scale)
-        this.button.setScale(scale / 1.8)
+        this.button.setScale(scale / 3)
 
         this.step = this.ballRack.height / 1.7
 
@@ -95,6 +101,6 @@ class SceneMain extends PIXI.Container
         this.ballRack.setPosition(this.x_1, this.y_1)
         this.firstBoard.setPosition(this.x_2, this.y_2)
         this.secondBoard.setPosition(this.x_3, this.y_3)
-        this.button.setPosition(game.app.view.width / 2, this.y_3 + this.firstBoard.height / 2 + this.button.height / 2.5)
+        this.button.setPosition(game.app.view.width / 2, this.y_3 + this.firstBoard.height / 2 + this.button.height / 1.8)
     }
 }

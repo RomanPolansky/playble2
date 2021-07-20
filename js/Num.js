@@ -10,6 +10,7 @@ class Num extends PIXI.Text
         this.anchor.set(0.5)
         
         this.isClicked = false
+        
         this.preBingo = false
         this.Circle = null
 

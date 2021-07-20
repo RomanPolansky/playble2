@@ -82,14 +82,15 @@ class Board extends PIXI.Container
                 daub.x = num.x
                 daub.y = num.y - 3
                 
+                spark.anchor.set(0.5)
                 spark.scale.set(0)
                 spark.x = num.x
                 spark.y = num.y - 3
                 this.addChild(spark)
                 this.addChild(daub)
 
-                new TWEEN.Tween(daub).to({ scale : {x:0.5, y:0.5} }, 240).easing(TWEEN.Easing.Back.Out).start(game.time)
-                new TWEEN.Tween(spark).to({ scale : {x:0.5, y:0.5} }, 220).easing(TWEEN.Easing.Back.Out).start(game.time).onComplete(() => {
+                new TWEEN.Tween(daub).to({ scale : {x:0.48, y:0.48} }, 240).easing(TWEEN.Easing.Back.Out).start(game.time)
+                new TWEEN.Tween(spark).to({ scale : {x:0.48, y:0.48} }, 220).easing(TWEEN.Easing.Back.Out).start(game.time).onComplete(() => {
                     new TWEEN.Tween(spark).to({ scale : {x:0, y:0}, alpha : 0 }, 200).start(game.time)
                 })
                 this.CircleAdd()
@@ -111,7 +112,7 @@ class Board extends PIXI.Container
                 num.isClicked = true
                 let daub = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['daub.png'] )
                 daub.anchor.set(0.5)
-                daub.scale.set(0.5)
+                daub.scale.set(0.48)
                 daub.x = num.x
                 daub.y = num.y - 3
                 this.addChild(daub)
@@ -299,7 +300,7 @@ class Board extends PIXI.Container
                     bingo.y = num.y
                     this.addChild(bingo)
                     num.bingoObj = bingo
-                    new TWEEN.Tween(bingo).to({ scale : {x:0.35, y:0.35} }, 200).easing(TWEEN.Easing.Back.Out).start(game.time)
+                    new TWEEN.Tween(bingo).to({ scale : {x:0.6, y:0.6} }, 200).easing(TWEEN.Easing.Back.Out).start(game.time)
                     count++
                 }
             }
@@ -326,7 +327,7 @@ class Board extends PIXI.Container
         if (this.bingoCount > this.bingoAnimCompleted)
         {
             console.log('бинго', this.bingoCount)
-            let bingo = new Bingo()
+            let bingo = new Bingo(this.bingoAnimCompleted)
             this.addChild(bingo)
             this.bingoAnimCompleted++
 

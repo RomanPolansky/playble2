@@ -21,7 +21,7 @@ class Preloader
     owerflowLength = 1000
     container = new PIXI.Container()
 
-    constructor()
+    constructor(isText)
     {
         if (this.app.view.width > this.app.view.height)
         {
@@ -58,6 +58,11 @@ class Preloader
             }
             this.container.addChild(this.figArray[i])
         }
+        if (true)
+        {
+            this.AddText()
+        }
+
         this.app.stage.addChild(this.container)
 
         for (let i in this.figArray)
@@ -85,9 +90,45 @@ class Preloader
                 })
             }
         }
+
         window.addEventListener('resize', ()=>{
             this.Resize()
         })
+    }
+    AddText()
+    {
+        let txt,
+            txtSize
+        if (!this.isVertical)
+        {
+            txt = 'FIND\nTHE\nBINGO'
+        }
+        else
+        {
+            txt = `FIND THE BINGO`
+        }
+
+        txtSize = 60
+        if (this.app.view.width >= 1000 && this.app.view.height >= 1000)
+        {
+            txtSize = 100
+        }
+        this.text = new PIXI.Text(txt,{
+            fontFamily : 'BQ',
+            fontSize: txtSize,
+            fill : 0xffffff,
+            align : 'center',
+            stroke: 0x000000,
+            strokeThickness: 6
+        })
+        this.text.anchor.set(0.5)
+        this.text.x = this.app.view.width / 2
+        this.text.y = this.app.view.height / 2
+        this.text.alpha = 0
+        new TWEEN.Tween(this.text).to({ alpha : 1 }, 250).start(game.time).onComplete(()=>{
+            new TWEEN.Tween(this.text).to({ alpha : 0 }, 250).delay(800).start(game.time)
+        })
+        this.container.addChild(this.text)
     }
     Destroy()
     {
@@ -97,6 +138,11 @@ class Preloader
         this.figArray = []
     }
     Resize() {
+        if (this.text != undefined && this.text != null)
+        {
+            this.text.scale.set(0)
+            this.text.alpha = 0
+        }
         if (this.figArray.length == 5)
         {
             for (let i in this.figArray){
