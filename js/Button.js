@@ -23,11 +23,16 @@ class Button extends PIXI.Container
         this.on('pointerup', () => {
             console.log('go to store')
         })
+        this.ScaleAnim()
     }
     setScale(scale)
     {
         this.buttonSprite.scale.set(scale)
         this.buttonText.scale.set(scale*2)
+    }
+    ScaleAnim()
+    {
+        new TWEEN.Tween(this).to({ scale : {x:0.95, y:0.95} }, 550).yoyo(true).repeat(Infinity).start(game.time)
     }
     setPosition(x, y)
     {

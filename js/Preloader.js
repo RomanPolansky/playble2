@@ -109,10 +109,9 @@ class Preloader
         }
 
         txtSize = 60
-        if (this.app.view.width >= 1000 && this.app.view.height >= 1000)
-        {
-            txtSize = 100
-        }
+        if (this.app.view.width >= 750 && this.app.view.height >= 750) txtSize = 80
+        if (this.app.view.width >= 1000 && this.app.view.height >= 1000) txtSize = 100
+        
         this.text = new PIXI.Text(txt,{
             fontFamily : 'BQ',
             fontSize: txtSize,
