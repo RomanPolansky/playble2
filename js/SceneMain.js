@@ -5,14 +5,14 @@ class SceneMain extends PIXI.Container
         super()
     }
     Start() {
-        this.preloader = new Preloader() 
+        this.preloader = new Preloader(true) 
         
         this.starting = () =>
         {
             if (this.preloader.isVisible) {
                 this.firstBoard = new Board()
                 this.secondBoard = new Board()
-                this.ballRack = new BallRack()
+                this.ballRack = new BallRack(this.firstBoard, this.secondBoard)
                 this.button = new Button()
 
                 this.firstBoard.numFill(board_num_1)
@@ -20,10 +20,38 @@ class SceneMain extends PIXI.Container
 
                 this.resize(window.innerWidth, window.innerHeight)
         
+                this.addChild(this.ballRack)
                 this.addChild(this.firstBoard)
                 this.addChild(this.secondBoard)
-                this.addChild(this.ballRack)
                 this.addChild(this.button)
+
+                game.app.ticker.remove(this.starting)
+            }
+        }
+        game.app.ticker.add(this.starting)
+        
+        setTimeout(() => {
+            this.ToPackshot()
+        }, 3000)
+        
+    }
+    ToPackshot()
+    {
+        this.preloader = new Preloader()
+        this.starting = () =>
+        {
+            if (this.preloader.isVisible) {
+                for (let i = 0; i < this.children.length; i++)
+                {
+                    this.children[i].alpha = 0
+                    this.children[i].scale.set(0)
+                }
+
+                this.packshot = new Packshot()
+                this.packshot.x = game.app.view.width/2
+                this.packshot.y = game.app.view.height/2
+                
+                this.addChild(this.packshot)
 
                 game.app.ticker.remove(this.starting)
             }
@@ -39,6 +67,10 @@ class SceneMain extends PIXI.Container
             this.button !== undefined)
         {
             width/height < 1.1 ? this.VerticalState(width, height) : this.HorizontalState(width, height)
+        }
+        if (this.packshot !== undefined)
+        {
+            this.packshot.resize()
         }
     }
 

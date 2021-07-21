@@ -346,4 +346,47 @@ class Board extends PIXI.Container
             game.app.ticker.add(func)
         }
     }
+
+    SupportAnim()
+    {
+        let flag = true
+        for (let i in activeBall)
+        {
+            for (let j in this.numTexturesArr)
+            {
+                for (let k in this.numTexturesArr[j])
+                {
+                    if (activeBall[i].children[1].text === this.numTexturesArr[j][k].text && !this.numTexturesArr[j][k].isClicked && flag)
+                    {
+                        this.HandAnim(
+                            this.numTexturesArr[j][k].x,
+                            this.numTexturesArr[j][k].y - 10
+                        )
+                        flag = false
+                    }
+                }
+            }   
+        }
+    }
+    HandAnim(xPos, yPos)
+    {
+        this.hand = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['hand.png'] )
+        this.hand.scale.set(0.35)
+        this.hand.y = -this.hand.height
+        this.hand.alpha = 0
+        this.addChild(this.hand)
+
+        new TWEEN.Tween(this.hand).to({ alpha : 1 }, 150).start(game.time)
+        new TWEEN.Tween(this.hand).to({ position : {x:xPos, y:yPos} }, 300).start(game.time).onComplete(()=>{
+            new TWEEN.Tween(this.hand).to({ position : {x:xPos + 10, y:yPos - 10} }, 150).delay(50).start(game.time).onComplete(()=>{
+                new TWEEN.Tween(this.hand).to({ position : {x:xPos, y:yPos}, rotation : -0.1 }, 150).delay(50).start(game.time).onComplete(()=>{
+                    new TWEEN.Tween(this.hand).to({ position : {x:xPos + 10, y:yPos - 10}, rotation : 0 }, 150).delay(50).start(game.time).onComplete(()=>{
+                        new TWEEN.Tween(this.hand).to({ alpha : 0 }, 150).start(game.time).onComplete(()=>{
+                            this.hand.destroy()
+                        })
+                    })
+                })
+            })
+        })
+    }
 }

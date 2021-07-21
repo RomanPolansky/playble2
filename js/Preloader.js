@@ -23,6 +23,7 @@ class Preloader
 
     constructor(isText)
     {
+        this.isText = isText
         if (this.app.view.width > this.app.view.height)
         {
             this.isVertical = true
@@ -58,7 +59,7 @@ class Preloader
             }
             this.container.addChild(this.figArray[i])
         }
-        if (true)
+        if (isText)
         {
             this.AddText()
         }

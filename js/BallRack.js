@@ -1,14 +1,20 @@
 class BallRack extends PIXI.Container
 {
-    constructor()
+    constructor(board1, board2)
     {
         super()
+
+        this.firstBoard = board1
+        this.secondBoard = board2
+        this.firstBoardNum = board1.numTexturesArr
+        this.secondBoardNum = board2.numTexturesArr
 
         this.spriteRack = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['ballrack.png'] )
         this.spriteCircle = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['circleBar.png'] )
         this.spriteRack.anchor.set(0.5)
         this.spriteCircle.anchor.set(0.5)
 
+        this.spriteRack.scale.set(1, 1.05)
         this.spriteRack.x -= this.spriteCircle.width/3
         this.spriteCircle.x -= this.spriteCircle.width/3
 
@@ -40,13 +46,18 @@ class BallRack extends PIXI.Container
                 this.NewBall()
                 game.app.ticker.remove(this.firstTick)
                 game.app.ticker.add(this.startTick)
-                console
+                game.app.ticker.add(this.startTickSup)
+                game.app.ticker.add(this.startTickSupBoard)
             }
         }
         game.app.ticker.add(this.firstTick)
 
         this.defaultTimer = 5000
         this.timer = this.defaultTimer
+        this.timerSup = this.defaultTimer
+        this.timerSupBoard = this.defaultTimer
+        this.isSupported = false
+        this.isSupportedBoard = false
         this.startTick = () =>
         {
             this.timer -= game.app.ticker.deltaMS
@@ -60,6 +71,36 @@ class BallRack extends PIXI.Container
                     game.app.ticker.remove(this.startTick)
                 }
                 this.timer = this.defaultTimer
+            }
+        }
+        this.startTickSup = () =>
+        {
+            this.timerSup -= game.app.ticker.deltaMS
+            if (this.timerSup <= this.defaultTimer/2 && !this.isSupported){
+                game.app.ticker.addOnce(()=>{
+                    this.SupportAnim()
+                })
+                this.isSupported = true
+            }
+            if (this.timerSup <= 0)
+            {
+                this.timerSup = this.defaultTimer
+                this.isSupported = false
+            }
+        }
+        this.startTickSupBoard = () =>
+        {
+            this.timerSupBoard -= game.app.ticker.deltaMS
+            if (this.timerSupBoard <= this.defaultTimer/2 && !this.isSupportedBoard){
+                game.app.ticker.addOnce(()=>{
+                    this.firstBoard.SupportAnim()
+                    this.secondBoard.SupportAnim()
+                })
+                this.isSupportedBoard = true
+            }
+            if (this.timerSupBoard <= 0)
+            {
+                this.timerSupBoard = this.defaultTimer
             }
         } 
     }
@@ -136,6 +177,41 @@ class BallRack extends PIXI.Container
             {
                 activeBall[j].x = activeBall[j].x + ballCont.ball.width
             } 
+        }
+    }
+
+    SupportAnim()
+    {
+        for (let i in activeBall)
+        {
+            let flag = false
+            for (let j in this.firstBoardNum)
+            {
+                for (let k in this.firstBoardNum[j])
+                {
+                    if (activeBall[i].children[1].text === this.firstBoardNum[j][k].text && !this.firstBoardNum[j][k].isClicked)
+                    {
+                        flag = true
+                    }
+                }
+            }
+            for (let j in this.secondBoardNum)
+            {
+                for (let k in this.secondBoardNum[j])
+                {
+                    if (activeBall[i].children[1].text === this.secondBoardNum[j][k].text && !this.secondBoardNum[j][k].isClicked)
+                    {
+                        flag = true
+                    }
+                }
+
+            }
+            if (flag)
+            {
+                new TWEEN.Tween(activeBall[i]).to({ scale : {x:1.1, y:1.1} }, 200).delay(600 - 100*i).start(game.time).onComplete(()=>{
+                    new TWEEN.Tween(activeBall[i]).to({ scale : {x:1, y:1} }, 200).start(game.time)
+                })
+            }
         }
     }
 }
