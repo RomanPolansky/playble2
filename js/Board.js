@@ -306,11 +306,11 @@ class Board extends PIXI.Container
             }
         }
      
-        if (count >= 4 && count < 9)
+        if (count >= 4 && count < 8)
         {
             this.bingoCount += 1
         }
-        if (count >= 9 && count < 13)
+        if (count >= 8 && count < 13)
         {
             this.bingoCount += 2
         }
@@ -326,12 +326,10 @@ class Board extends PIXI.Container
     {
         if (this.bingoCount > this.bingoAnimCompleted)
         {
-            console.log('бинго', this.bingoCount)
+            
             let bingo = new Bingo(this.bingoAnimCompleted)
             this.addChild(bingo)
             this.bingoAnimCompleted++
-
-            console.log('выполнено', this.bingoAnimCompleted)
 
             let time = 0
             let func = () =>

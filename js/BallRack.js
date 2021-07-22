@@ -11,8 +11,10 @@ class BallRack extends PIXI.Container
 
         this.spriteRack = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['ballrack.png'] )
         this.spriteCircle = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['circleBar.png'] )
+        this.spriteCircleRed = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['circleBarRed.png'] )
         this.spriteRack.anchor.set(0.5)
         this.spriteCircle.anchor.set(0.5)
+        this.spriteCircleRed.anchor.set(0.5)
 
         this.spriteRack.scale.set(1, 1.05)
         this.spriteRack.x -= this.spriteCircle.width/3
@@ -21,6 +23,10 @@ class BallRack extends PIXI.Container
         this.spriteCircle.x += this.spriteRack.width/2
         this.spriteCircle.y -= 3
 
+        this.spriteCircleRed.x = this.spriteCircle.x
+        this.spriteCircleRed.y = this.spriteCircle.y
+
+        this.rackTimer = 5
         this.moveCount = 4
         this.moveCountText = new PIXI.Text( this.moveCount ,{fontFamily : 'Arial', fontSize: 64, fontWeight: 700, align : 'center'})
         this.moveCountText.anchor.set(0.5)
@@ -29,6 +35,7 @@ class BallRack extends PIXI.Container
         this.moveCountText.y = this.spriteCircle.y + 5
 
         this.addChild(this.spriteRack)
+        this.addChild(this.spriteCircleRed)
         this.addChild(this.spriteCircle)
         this.addChild(this.moveCountText)
 
@@ -67,7 +74,7 @@ class BallRack extends PIXI.Container
                 else if (this.moveCount == 1)
                 {
                     this.NewBall()
-                    this.MoveScale()
+                    this.RackTimer()
                     game.app.ticker.remove(this.startTick)
                 }
                 this.timer = this.defaultTimer
@@ -121,9 +128,41 @@ class BallRack extends PIXI.Container
             this.moveCountText.text = this.moveCount   
         }
     }
-    MoveScale()
+    RackTimer()
     {
-        new TWEEN.Tween(this.moveCountText).to({ scale : {x:1.1, y:1.1} }, 400).yoyo(true).repeat(Infinity).easing(TWEEN.Easing.Back.Out).start(game.time)
+        this.moveCountText.scale.set(0)
+        this.moveCountText.alpha = 0
+        this.spriteCircle.alpha = 0
+        
+        this.rackTimerText = new PIXI.Text( this.rackTimer+'s' ,{fontFamily: 'BQ', fontSize: 50, fill: 0xffffff, align: 'center', padding: 20})
+        this.rackTimerText.anchor.set(0.5)
+
+        this.rackTimerText.x = this.spriteCircleRed.x
+        this.rackTimerText.y = this.spriteCircleRed.y
+        this.addChild(this.rackTimerText)
+
+        let defaultTimer = 1000,
+            timer = defaultTimer
+        let timerHandler = () => {
+            timer -= game.app.ticker.deltaMS
+            if (timer <= 0)
+            {
+                if (this.rackTimer >= 0)
+                {
+                    this.rackTimer -= 1
+                    if (this.rackTimer >= 0)
+                    {
+                        this.rackTimerText.text = this.rackTimer+'s'
+                    }   
+                }
+                if (this.rackTimer == -1)
+                {
+                    game.app.ticker.remove(timerHandler) 
+                }
+                timer = defaultTimer
+            }
+        }
+        game.app.ticker.add(timerHandler)
     }
     NewBall()
     {
@@ -179,7 +218,6 @@ class BallRack extends PIXI.Container
             } 
         }
     }
-
     SupportAnim()
     {
         for (let i in activeBall)
@@ -204,7 +242,6 @@ class BallRack extends PIXI.Container
                         flag = true
                     }
                 }
-
             }
             if (flag)
             {

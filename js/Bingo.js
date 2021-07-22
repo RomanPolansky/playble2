@@ -30,6 +30,27 @@ class Bingo extends PIXI.Container
         let G = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['G.png'] )
         let O = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['O.png'] )
 
+        let spark1 = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] ),
+            spark2 = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] ),
+            spark3 = new PIXI.Sprite( PIXI.Loader.shared.resources[jsonSS].textures['spark.png'] )
+        let sparkArr = [spark1, spark3, spark2]
+        
+        for (let i in sparkArr)
+        {
+            sparkArr[i].anchor.set(0.5)
+            sparkArr[i].alpha = 0
+            this.addChild(sparkArr[i])
+         
+            new TWEEN.Tween(sparkArr[i]).to({ alpha : 1 }, 250).start(game.time)
+            new TWEEN.Tween(sparkArr[i]).to({ angle : 360 }, 3500).repeat(Infinity).start(game.time)
+        }
+        spark1.scale.set(0.8)
+        spark2.scale.set(0.85)
+        spark3.scale.set(0.8)
+
+        spark1.x -= spark2.width/2.5
+        spark3.x += spark2.width/2.5
+
         let lettersArr = [ B, I, N, G, O ]
         let coordArr = [ -110, -70, -18, 45, 110 ]
         for (let i in lettersArr)

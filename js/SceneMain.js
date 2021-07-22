@@ -25,14 +25,23 @@ class SceneMain extends PIXI.Container
                 this.addChild(this.secondBoard)
                 this.addChild(this.button)
 
+                game.app.ticker.add(this.checkTime)
                 game.app.ticker.remove(this.starting)
             }
         }
         game.app.ticker.add(this.starting)
         
-        setTimeout(() => {
-            this.ToPackshot()
-        }, 3000)
+        this.checkTime = () =>
+        {
+            if (this.ballRack != null && this.ballRack != undefined)
+            {
+                if (this.ballRack.rackTimer == -1)
+                {
+                    this.ToPackshot()
+                    game.app.ticker.remove(this.checkTime)
+                }
+            }
+        }
         
     }
     ToPackshot()

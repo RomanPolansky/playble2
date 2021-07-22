@@ -102,11 +102,11 @@ class Preloader
             txtSize
         if (!this.isVertical)
         {
-            txt = 'FIND\nTHE\nBINGO'
+            txt = 'GET\nA\nBINGO'
         }
         else
         {
-            txt = `FIND THE BINGO`
+            txt = `GET A BINGO`
         }
 
         txtSize = 60
@@ -119,7 +119,8 @@ class Preloader
             fill : 0xffffff,
             align : 'center',
             stroke: 0x000000,
-            strokeThickness: 6
+            strokeThickness: 6,
+            padding: 10
         })
         this.text.anchor.set(0.5)
         this.text.x = this.app.view.width / 2
