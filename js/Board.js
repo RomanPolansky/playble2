@@ -89,6 +89,8 @@ class Board extends PIXI.Container
                 this.addChild(spark)
                 this.addChild(daub)
 
+                starSound.play()
+
                 new TWEEN.Tween(daub).to({ scale : {x:0.48, y:0.48} }, 240).easing(TWEEN.Easing.Back.Out).start(game.time)
                 new TWEEN.Tween(spark).to({ scale : {x:0.48, y:0.48} }, 220).easing(TWEEN.Easing.Back.Out).start(game.time).onComplete(() => {
                     new TWEEN.Tween(spark).to({ scale : {x:0, y:0}, alpha : 0 }, 200).start(game.time)
@@ -326,7 +328,7 @@ class Board extends PIXI.Container
     {
         if (this.bingoCount > this.bingoAnimCompleted)
         {
-            
+            bingoSound.play()
             let bingo = new Bingo(this.bingoAnimCompleted)
             this.addChild(bingo)
             this.bingoAnimCompleted++

@@ -22,6 +22,7 @@ class Button extends PIXI.Container
         this.buttonMode = true
         this.on('pointerup', () => {
             console.log('go to store')
+            clickSound.play()
         })
         this.ScaleAnim()
     }

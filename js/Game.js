@@ -17,7 +17,7 @@ class Game extends PIXI.Container
     }
     Init()
     {
-        this.Start();
+        this.Start()
     }
     Start()
     {   
